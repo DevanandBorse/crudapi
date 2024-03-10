@@ -1,0 +1,9 @@
+<button (click)="createCategory('New Category')">Add Category</button>
+
+<ul>
+  <li *ngFor="let category of categories">
+    {{ category.CategoryName }}
+    <button (click)="updateCategory(category.CategoryId, 'Updated Category')">Update</button>
+    <button (click)="deleteCategory(category.CategoryId)">Delete</button>
+  </li>
+</ul>
