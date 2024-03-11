@@ -1,35 +1,51 @@
-// src/app/category.service.ts
+// category-master.component.ts
 
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { CategoryService } from '../category.service';
 import { Category } from '../category.interface';
 
-@Injectable({
-  providedIn: 'root'
+@Component({
+  selector: 'app-category-master',
+  templateUrl: './category-master.component.html',
+  styleUrls: ['./category-master.component.css']
 })
-export class CategoryService {
-  private apiUrl = 'http://localhost:3003';
+export class CategoryMasterComponent implements OnInit {
+  categories: Category[] = [];
+  newCategoryName = '';
 
-  constructor(private http: HttpClient) { }
+  constructor(private categoryService: CategoryService) { }
 
-  getAllCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(`${this.apiUrl}/all/category`);
+  ngOnInit(): void {
+    this.loadCategories();
   }
 
-  getCategoryById(id: number): Observable<Category> {
-    return this.http.get<Category>(`${this.apiUrl}/category/${id}`);
+  loadCategories(): void {
+    this.categoryService.getAllCategories()
+      .subscribe((data: any[]) => {
+        this.categories = data;
+      });
   }
 
-  addCategory(categoryName: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/addcategory`, { categoryName });
+  addCategory(categoryName: string): void {
+    if (categoryName.trim()) {
+      this.categoryService.addCategory(categoryName).subscribe(() => {
+        this.loadCategories();
+        this.newCategoryName = '';
+      });
+    }
   }
 
-  updateCategory(categoryId: number, categoryName: string): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/category/${categoryId}`, { categoryName });
+  updateCategory(categoryId: number, newName: string): void {
+    if (newName.trim()) {
+      this.categoryService.updateCategory(categoryId, newName).subscribe(() => {
+        this.loadCategories();
+      });
+    }
   }
 
-  deleteCategory(categoryId: number): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/category/${categoryId}`);
+  deleteCategory(categoryId: number): void {
+    this.categoryService.deleteCategory(categoryId).subscribe(() => {
+      this.loadCategories();
+    });
   }
 }
