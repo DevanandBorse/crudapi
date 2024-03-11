@@ -1,57 +1,36 @@
-<!-- product-master.component.html -->
 
-<!-- Add Product Form -->
 <div>
-    <h2>Add Product</h2>
-    <form (submit)="addProduct()">
-      <label for="productName">Product Name:</label>
-      <input type="text" id="productName" [(ngModel)]="newProduct.productName" name="productName" required>
-      <br>
-      <label for="categoryId">Category ID:</label>
-      <input type="number" id="categoryId" [(ngModel)]="newProduct.categoryId" name="categoryId" required>
-      <br>
-      <button type="submit">Add Product</button>
-    </form>
-  </div>
-  
-  <!-- Product List -->
-  <div>
-    <h2>Product List</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Product ID</th>
-          <th>Product Name</th>
-          <th>Category ID</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let product of products">
-          <td>{{ product.productId }}</td>
-          <td>{{ product.productName }}</td>
-          <td>{{ product.categoryId }}</td>
-          <td>
-            <button (click)="editProduct(product)">Edit</button>
-            <button (click)="deleteProduct(product.productId)">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
-  <!-- Edit Product Form -->
-  <div *ngIf="editingProduct">
-    <h2>Edit Product</h2>
-    <form (submit)="updateProduct()">
-      <label for="editProductName">Product Name:</label>
-      <input type="text" id="editProductName" [(ngModel)]="editingProduct.productName" name="editProductName" required>
-      <br>
-      <label for="editCategoryId">Category ID:</label>
-      <input type="number" id="editCategoryId" [(ngModel)]="editingProduct.categoryId" name="editCategoryId" required>
-      <br>
-      <button type="submit">Update Product</button>
-      <button (click)="cancelEdit()">Cancel</button>
-    </form>
-  </div>
-  
+  <h2>Add Product</h2>
+  <form (submit)="addProduct()">
+    <label for="productName">Product Name:</label>
+    <input type="text" id="productName" [(ngModel)]="newProductName" name="productName" required>
+    <br>
+    <label for="categoryId">Category ID:</label>
+    <input type="number" id="categoryId" [(ngModel)]="newCategoryId" name="categoryId" required>
+    <br>
+    <button type="submit">Add Product</button>
+  </form>
+</div>
+
+<button (click)="prevPage()">Previous Page</button>
+<button (click)="nextPage()">Next Page</button>
+
+<div>
+  <h2>Product List</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Product ID</th>
+        <th>Product Name</th>
+        <th>Category ID</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td>{{ product.productId }}</td>
+        <td>{{ product.productName }}</td>
+        <td>{{ product.categoryId }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

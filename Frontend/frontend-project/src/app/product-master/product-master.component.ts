@@ -1,5 +1,3 @@
-// src/app/product-master.component.ts
-
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../product.service';
 import { Product } from '../product.interface';
@@ -13,6 +11,8 @@ export class ProductMasterComponent implements OnInit {
   products: Product[] = [];
   newProductName = '';
   newCategoryId: number | undefined;
+  pageNo = 1;
+  pageSize = 10;
 
   constructor(private productService: ProductService) { }
 
@@ -21,10 +21,22 @@ export class ProductMasterComponent implements OnInit {
   }
 
   loadProducts(): void {
-    this.productService.getAllProducts()
+    this.productService.getProductsByPagination(this.pageNo, this.pageSize)
       .subscribe((data: any[]) => {
         this.products = data;
       });
+  }
+
+  nextPage(): void {
+    this.pageNo++;
+    this.loadProducts();
+  }
+
+  prevPage(): void {
+    if (this.pageNo > 1) {
+      this.pageNo--;
+      this.loadProducts();
+    }
   }
 
   addProduct(): void {
